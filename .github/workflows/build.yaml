@@ -23,11 +23,11 @@ jobs:
         with:
           path: ./
 
-      - name: 创建 压缩档案
+      - name: 复制目标
         run: |
           cd dist
-          cp ./windows/* ./
-          cp ./linux/* ./
+          sudo cp ./windows/* ./
+          sudo cp ./linux/* ./
           ls
 
       - name: 发布到 GitHub Release
