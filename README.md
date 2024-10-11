@@ -10,3 +10,5 @@ options:
   -i I        IP
   -d D        Domain
 ```
+
+![](https://i.imgur.com/W0jeCkr.png)
