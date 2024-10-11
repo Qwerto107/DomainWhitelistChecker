@@ -1,0 +1,39 @@
+name: DomainWhitelistCheck
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: "v1.0.0"
+    steps:
+      - name: 检出 main 分支
+        uses: actions/checkout@v2
+
+      - name: 构建 Windows 程序
+        uses: Qwerto107/pyinstaller-action-windows@main
+        with:
+          path: ./
+
+      - name: 构建 Linux 程序
+        uses: Qwerto107/pyinstaller-action-linux@main
+        with:
+          path: ./
+
+      - name: 创建 压缩档案
+        run: |
+          cd dist
+          cp ./windows/* ./
+          cp ./linux/* ./
+          ls
+
+      - name: 发布到 GitHub Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/*
+          tag: ${{ env.VERSION }}
+          file_glob: true
